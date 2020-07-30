@@ -27,6 +27,9 @@ set clipboard=unnamedplus
 " set Backspace mode
 set bs=eol,start,indent
 
+" coding colour
+syntax on
+
 " display line number
 set number
 
@@ -92,7 +95,6 @@ set showtabline=2
 set showcmd
 
 " display or enable mode
-" set showmode
 set noshowmode
 
 " completion
@@ -128,7 +130,7 @@ set foldenable
 " text formatting
 set formatoptions-=tc
 
-" ex in preview
+" ex in preview (neovim)
 set inccommand=split
 
 " Don't pass messages to |ins-completion-menu|
@@ -148,6 +150,12 @@ if has('multi_byte')
   " auto
   set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
+
+" error format
+set errorformat+=[%f:%l]\ ->\ %m,[%f:%l]:%m
+
+" status style
+set statusline+=\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %v:%l/%L%)
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
@@ -178,14 +186,20 @@ nnoremap < <<
 nnoremap > >>
 
 " search
-noremap <LEADER><CR> :nohlsearch<CR>
 nnoremap = n
 nnoremap - N
+noremap <LEADER><CR> :nohlsearch<CR>
 
 " folding
 noremap <silent> <LEADER>o za
 
 " cursor Movement
+" New cursor movement (the default arrow keys are used for resizing windows)
+"     ^
+"     u
+" < n   i >
+"     e
+"     v
 noremap <silent> u k
 noremap <silent> n h
 noremap <silent> e j
@@ -225,6 +239,22 @@ cnoremap <C-b> <Left>
 cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-w> <S-Right>
+
+" Resize splits with arrow keys
+noremap <up> :res +5<CR>
+noremap <down> :res -5<CR>
+noremap <left> :vertical resize-5<CR>
+noremap <right> :vertical resize+5<CR>
+
+" Tab management
+" Create a new tab with tu
+noremap tu :tabe<CR>
+" Move around tabs with tn and ti
+noremap tn :-tabnext<CR>
+noremap ti :+tabnext<CR>
+" Move the tabs with tmn and tmi
+noremap tmn :-tabmove<CR>
+noremap tmi :+tabmove<CR>
 
 " Compile function
 noremap r :call CompileRunGcc()<CR>
