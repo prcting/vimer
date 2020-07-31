@@ -1,10 +1,11 @@
-" __  ____   __  _   ___     _____ __  __ ____   ____
-"|  \/  \ \ / / | \ | \ \   / /_ _|  \/  |  _ \ / ___|
-"| |\/| |\ V /  |  \| |\ \ / / | || |\/| | |_) | |
-"| |  | | | |   | |\  | \ V /  | || |  | |  _ <| |___
-"|_|  |_| |_|   |_| \_|  \_/  |___|_|  |_|_| \_\\____|
+"  __  ____   __ __     _____ __  __ ____   ____
+" |  \/  \ \ / / \ \   / /_ _|  \/  |  _ \ / ___|
+" | |\/| |\ V /   \ \ / / | || |\/| | |_) | |
+" | |  | | | |     \ V /  | || |  | |  _ <| |___
+" |_|  |_| |_|      \_/  |___|_|  |_|_| \_\\____|
 
 " Author: @Jake
+" Last edit: 7.31 2020
 
 " ====================
 " === Editor Setup ===
@@ -12,6 +13,9 @@
 " ===
 " === System
 " ===
+" use mouse
+set mouse=a
+
 " colour compatibility
 let &t_ut=''
 
@@ -26,6 +30,9 @@ set clipboard=unnamedplus
 
 " set Backspace mode
 set bs=eol,start,indent
+
+" set vim theme
+color slate
 
 " coding colour
 syntax on
@@ -55,6 +62,9 @@ set smartcase
 " expert search
 set incsearch
 
+" search result highlight
+set hlsearch
+
 " matching parentheses
 set showmatch
 
@@ -70,17 +80,17 @@ set list
 " display space
 set listchars=tab:\|\ ,trail:▫
 
-" set shiftwidth
-set shiftwidth=2
-
 " set tab width
 set tabstop=2
 
-" no expandtab
-set noexpandtab
+" set shiftwidth
+set shiftwidth=2
 
 " expandtab width
 set softtabstop=2
+
+" no expandtab
+set noexpandtab
 
 " display status
 set laststatus=2
@@ -97,7 +107,7 @@ set showcmd
 " display or enable mode
 set noshowmode
 
-" completion
+" complete command
 set wildmenu
 
 " row 5 content
@@ -131,7 +141,7 @@ set foldenable
 set formatoptions-=tc
 
 " ex in preview (neovim)
-set inccommand=split
+" set inccommand=split
 
 " Don't pass messages to |ins-completion-menu|
 set shortmess+=c
@@ -151,12 +161,18 @@ if has('multi_byte')
   set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
 
+" cursor change line
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
 " error format
 set errorformat+=[%f:%l]\ ->\ %m,[%f:%l]:%m
 
 " status style
 set statusline+=\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\":\"\")}]\ %v:%l/%L%)
 
+" last cursor place
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " ===
@@ -167,6 +183,14 @@ let mapleader=" "
 
 " disable the default s key
 noremap s <nop>
+
+" Save & quit
+noremap Q :q<CR>
+noremap <C-q> :qa<CR>
+noremap S :w<CR>
+
+" Open the vimrc file anytime
+noremap <LEADER>rc :e ~/.vim/vimrc<CR>
 
 " undo operations
 noremap l u
@@ -240,13 +264,39 @@ cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-w> <S-Right>
 
+" === Window management
+" Use <space> + new arrow keys for moving the cursor around windows
+noremap <LEADER>w <C-w>w
+noremap <LEADER>u <C-w>k
+noremap <LEADER>e <C-w>j
+noremap <LEADER>n <C-w>h
+noremap <LEADER>i <C-w>l
+
+" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
+noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap se :set splitbelow<CR>:split<CR>
+noremap sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap si :set splitright<CR>:vsplit<CR>
+
 " Resize splits with arrow keys
 noremap <up> :res +5<CR>
 noremap <down> :res -5<CR>
 noremap <left> :vertical resize-5<CR>
 noremap <right> :vertical resize+5<CR>
 
-" Tab management
+" Place the two screens up and down
+noremap sh <C-w>t<C-w>K
+" Place the two screens side by side
+noremap sv <C-w>t<C-w>H
+
+" Rotate screens
+noremap srh <C-w>b<C-w>K
+noremap srv <C-w>b<C-w>H
+
+" Press <SPACE> + q to close the window below the current window
+noremap <LEADER>q <C-w>j:q<CR>
+
+" === Tab management
 " Create a new tab with tu
 noremap tu :tabe<CR>
 " Move around tabs with tn and ti
@@ -255,6 +305,36 @@ noremap ti :+tabnext<CR>
 " Move the tabs with tmn and tmi
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
+
+" === Other useful stuff
+" Open a new instance of st with the cwd
+nnoremap \t :tabe<CR>:-tabmove<CR>:term sh -c 'st'<CR><C-\><C-N>:q<CR>
+
+" Move the next character to the end of the line with ctrl+9
+inoremap <C-u> <ESC>lx$p
+
+" Opening a terminal window
+noremap <LEADER>/ :set splitbelow<CR>:split<CR>:res +10<CR>:term<CR>
+
+" Press space twice to jump to the next '<++>' and edit it
+noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+" Spelling Check with <space>sc
+noremap <LEADER>sc :set spell!<CR>
+
+noremap <C-c> zz
+
+" Auto change directory to current dir
+autocmd BufEnter * silent! lcd %:p:h
+
+" Call figlet
+noremap tx :r !figlet
+
+" find and replace
+noremap \s :%s//g<left><left>
+
+" set wrap
+noremap <LEADER>sw :set wrap<CR>
 
 " Compile function
 noremap r :call CompileRunGcc()<CR>
