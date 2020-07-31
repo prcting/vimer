@@ -12,7 +12,7 @@
 " ===
 " === System
 " ===
-" color compatibility
+" colour compatibility
 let &t_ut=''
 
 " auto change work dir
@@ -76,7 +76,7 @@ set shiftwidth=2
 " set tab width
 set tabstop=2
 
-" noexpandtab
+" no expandtab
 set noexpandtab
 
 " expandtab width
