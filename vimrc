@@ -4,12 +4,10 @@
 " | |  | | | |     \ V /  | || |  | |  _ <| |___
 " |_|  |_| |_|      \_/  |___|_|  |_|_| \_\\____|
 
-" Author: @Matthew
-" Last edit: 08.06 2020
+" Author: @Jake
+" Last edit: 08.27 2020
 
-" ====================
-" === Editor Setup ===
-" ====================
+
 " ===
 " === System
 " ===
@@ -161,6 +159,10 @@ if has('multi_byte')
   set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
 
+set colorcolumn=100
+set updatetime=100
+set virtualedit=block
+
 " cursor change line
 let &t_SI = "\<Esc>]50;CursorShape=1\x7"
 let &t_SR = "\<Esc>]50;CursorShape=2\x7"
@@ -174,6 +176,7 @@ set statusline+=\ %0(%{&fileformat}\ [%{(&fenc==\"\"?&enc:&fenc).(&bomb?\",BOM\"
 
 " last cursor place
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
 
 " ===
 " === Basic Mappings
@@ -217,7 +220,10 @@ noremap <LEADER><CR> :nohlsearch<CR>
 " folding
 noremap <silent> <LEADER>o za
 
-" cursor Movement
+
+" ===
+" === Cursor Movement
+" ===
 " New cursor movement (the default arrow keys are used for resizing windows)
 "     ^
 "     u
@@ -251,10 +257,16 @@ noremap h e
 noremap <C-U> 5<C-y>
 noremap <C-E> 5<C-e>
 
-" insert mode cursor movement
+
+" ===
+" === Insert mode cursor movement
+" ===
 inoremap <C-a> <ESC>A
 
-" command mode cursor movement
+
+" ===
+" === Command mode cursor movement
+" ===
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
 cnoremap <C-p> <Up>
@@ -264,7 +276,10 @@ cnoremap <C-f> <Right>
 cnoremap <M-b> <S-Left>
 cnoremap <M-w> <S-Right>
 
+
+" ===
 " === Window management
+" ===
 " Use <space> + new arrow keys for moving the cursor around windows
 noremap <LEADER>w <C-w>w
 noremap <LEADER>u <C-w>k
@@ -296,7 +311,10 @@ noremap srv <C-w>b<C-w>H
 " Press <SPACE> + q to close the window below the current window
 noremap <LEADER>q <C-w>j:q<CR>
 
+
+" ===
 " === Tab management
+" ===
 " Create a new tab with tu
 noremap tu :tabe<CR>
 " Move around tabs with tn and ti
@@ -306,7 +324,10 @@ noremap ti :+tabnext<CR>
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
 
+
+" ===
 " === Other useful stuff
+" ===
 " Open a new instance of st with the cwd
 nnoremap \t :tabe<CR>:-tabmove<CR>:term sh -c 'st'<CR><C-\><C-N>:q<CR>
 
@@ -321,6 +342,9 @@ noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
 " Spelling Check with <space>sc
 noremap <LEADER>sc :set spell!<CR>
+
+" Press ` to change case (instead of ~)
+noremap ` ~
 
 noremap <C-c> zz
 
