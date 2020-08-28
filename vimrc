@@ -5,7 +5,7 @@
 " |_|  |_| |_|      \_/  |___|_|  |_|_| \_\\____|
 
 " Author: @Jake
-" Last edit: 08.27 2020
+" Last edit: 08.28 2020
 
 
 " ===
@@ -159,6 +159,7 @@ if has('multi_byte')
   set fileencodings=ucs-bom,utf-8,gbk,gb18030,big5,euc-jp,latin1
 endif
 
+" setting border
 set colorcolumn=100
 set updatetime=100
 set virtualedit=block
