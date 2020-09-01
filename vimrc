@@ -5,7 +5,7 @@
 " |_|  |_| |_|      \_/  |___|_|  |_|_| \_\\____|
 
 " Author: @Jake
-" Last edit: 08.28 2020
+" Last edit: 09.01 2020
 
 
 " ===
@@ -362,7 +362,7 @@ noremap \s :%s//g<left><left>
 noremap <LEADER>sw :set wrap<CR>
 
 " Compile function
-noremap r :call CompileRunGcc()<CR>
+noremap <F5> :call CompileRunGcc()<CR>
 func! CompileRunGcc()
 	exec "w"
 	if &filetype == 'c'
